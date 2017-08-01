@@ -24,6 +24,7 @@ body, html {
     /* Full height */
     height: 100%; 
 
+
     /* Center and scale the image nicely */
     background-position: center;
     background-repeat: no-repeat;
@@ -34,11 +35,16 @@ body, html {
     font-weight: bold;
 }
 
+.textchanger{
+  font-family: 'lobster', sans-serif;
+}
+
 </style>
 
 </head>
 
 <body>
+
 <div class="bg">
   <h1>Street Fighter RPG Game</h1>
   
@@ -72,18 +78,18 @@ body, html {
   <div id="fightsection" class="row">
   <div class="container row">
    <div class="col-sm-4">
-<h1>Fight Section</h1>
+<h2>Fight Section</h2>
 </div>
 <div class="col-sm-8"></div>
 </div>
   
     <div class="container row">
-    <div class="col-sm-4">
+    <div class="col-sm-3">
     <button type="button" id="attack" class="btn btn-danger">Attack</button>
   <button type="button" id="boost" class="btn btn-success">Boost</button>
   <button type="button" id="restart" class="btn btn-info">Restart</button>
   </div>   
-  <div class="col-sm-2">
+  <div class="col-sm-3">
     <p class="thick">"Boost": Skips your turn but doubles your chances of hitting harder</p>
   </div>
 </div>
@@ -98,6 +104,7 @@ body, html {
 <div class="row" ><div class="col-sm-4" id="hp2"></div></div>
 </div>
 
+
   <script type="text/javascript">
 
     // This document.ready isn't necessary in this example... but is needed in cases where the HTML is complex.
@@ -110,7 +117,7 @@ body, html {
       var ryu = {
       name: "ryu",
       hp: 220,
-      attack: Math.floor(Math.random() * 30)
+      attack:30
       
     
       };
@@ -118,7 +125,7 @@ body, html {
       var chunli = {
       name: "chunli",
       hp: 200,
-      attack: Math.floor(Math.random() * 50)
+      attack: 50
       
     
       };
@@ -126,7 +133,7 @@ body, html {
       var ken = {
       name: "ken",
       hp: 170,
-      attack: Math.floor(Math.random() * 120)
+      attack: 230
       
     
       };
@@ -134,7 +141,7 @@ body, html {
       var guile = {
       name: "guile",
       hp: 300,
-      attack: Math.floor(Math.random() * 20)
+      attack: 20
       
     
       };
@@ -142,30 +149,30 @@ body, html {
       var bison={
         name:"bison",
         hp:300,
-        counter:Math.floor(Math.random() * 50)
+        counter:50
       };
 
       var balrog={
         name:"balrog",
         hp:320,
-        counter:Math.floor(Math.random() *40 )
+        counter:40
       };
 
       var akuma={
         name:"akuma",
         hp:100,
-        counter:Math.floor(Math.random() * 250)
+        counter:250
       };
 
 
       var sagat={
         name:"sagat",
         hp:220,
-        counter:Math.floor(Math.random() * 80)
+        counter:80
       };
 
 function start(){
-        var hp=0;var hp2=0;var attack=0;var counter=0;
+        var hp=0;var hp2=0;var attack=0;var counter=0;var i=0;var j=0;
       $("#bad_guys").hide();}
 start();
       function Attack(hp,hp2,attack,counter){
@@ -178,42 +185,51 @@ start();
         return [hp,hp2];
       };
 
-      function Boost(hp,attack,counter){
-        attack=attack*2;
+      function Boost(hp,counter){
+        
         hp=hp-counter;
-        return [attack,hp];
+        return [hp];
       }
 
             
             $("#attack").on("click", function() {
 
+
          var hps=Attack(hp,hp2,attack,counter);
         hp2=hps[1];
-         document.getElementById("hp2").innerHTML = "<h2> HP:"   + hp2 + "</h2>";
+         document.getElementById("hp2").innerHTML = "<h3> HP:"   + hp2 + "</h3>";
          hp=hps[0];
-         document.getElementById("hp").innerHTML = "<h2> HP:"   + hp + "</h2>";
+         document.getElementById("hp").innerHTML = "<h3> HP:"   + hp + "</h3>";
         
-         
-         if(hp<=0){
+         $("#hp").append("<h5 class='text-info textchanger'> You did: "   + attack + " damage!</h2>");
+         $("#hp").append("<h5 class='text-danger textchanger'> You lost "   + counter + " HP!</h2>");
+          if(hp2<=0){
+          alert("You beat your opponent");
+          location.reload();
+         }
+         if(hp<=0 && hp2>0){
           alert("You lose!");
           location.reload();
          }
 
-         if(hp2<=0){
-          alert("You beat your opponent");
-          location.reload();
-         }
+        
+         
 
+attack= Math.floor(Math.random() * i);
+counter= Math.floor(Math.random() * j);
 
 });
 
             $("#boost").on("click", function() {
 
-         var boost=Boost(hp,attack,counter);
-          attack=boost[0];
-         hp=boost[1];
-         document.getElementById("hp").innerHTML = "<h2> HP:"   + hp + "</h2>";
-         
+         var boost=Boost(hp,counter);
+    
+         hp=boost[0];
+         document.getElementById("hp").innerHTML = "<h3> HP:"   + hp + "</h3>";
+         $("#hp").append("<h2 class='text-info textchanger'> Your attack is " + attack + "</h2>");
+         attack=Math.floor(Math.random() *i*2);
+         $("#hp").append("<h5 class='text-info textchanger'> You increased your luck, your attack is now " + attack + "</h5>");
+         $("#hp").append("<h5 class='text-danger textchanger'> You lost "   + counter + " HP!</h5>");
 
         
          if(hp<=0){
@@ -221,6 +237,7 @@ start();
           location.reload();
          }
 
+counter= Math.floor(Math.random() * j);
 });
 
               $("#restart").on("click", function() {
@@ -241,8 +258,9 @@ start();
          $('#char1').append("<img id='photo1' src='https://s-media-cache-ak0.pinimg.com/564x/8a/72/e8/8a72e8584b07b8870a21550c2427bf22.jpg' style='width:304px;height:228px;border:20px outset silver' />");
          
           hp=ryu.hp;
-          attack=ryu.attack;
-         document.getElementById("hp").innerHTML = "<h2> HP:"   + hp + "</h2>";
+          i=ryu.attack;
+          attack= Math.floor(Math.random() * i);
+         document.getElementById("hp").innerHTML = "<h3> HP:"   + hp + "</h3>";
 document.getElementById("name").innerHTML = ryu.name;
 });
 
@@ -257,8 +275,9 @@ document.getElementById("name").innerHTML = ryu.name;
          
 
          hp=ken.hp;
-          attack=ken.attack;
-document.getElementById("hp").innerHTML = "<h2> HP:"   + hp + "</h2>";
+         i=ken.attack;
+          attack=Math.floor(Math.random() * i);
+document.getElementById("hp").innerHTML = "<h3> HP:"   + hp + "</h3>";
           
     document.getElementById("name").innerHTML = ken.name;
       });
@@ -273,8 +292,9 @@ document.getElementById("hp").innerHTML = "<h2> HP:"   + hp + "</h2>";
          $('#char1').append("<img id='photo3' src='https://cdn.suwalls.com/wallpapers/games/chun-li-street-fighter-iv-32591-1920x1200.jpg' style='width:304px;height:228px;border:20px outset silver' />");
 
          hp=chunli.hp;
-          attack=chunli.attack;
-       document.getElementById("hp").innerHTML = "<h2> HP:"   + hp + "</h2>";
+          i=chunli.attack;
+          attack=Math.floor(Math.random() * i);
+       document.getElementById("hp").innerHTML = "<h3> HP:"   + hp + "</h3>";
     document.getElementById("name").innerHTML = chunli.name;
       });
 
@@ -288,8 +308,9 @@ document.getElementById("hp").innerHTML = "<h2> HP:"   + hp + "</h2>";
          $('#char1').append("<img id='photo4' src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTS35yh0hLtnHD_i4DjuimpAQO2hMtuFrT9ByG2u0gu8pmUy6mbYw' style='width:304px;height:228px;border:20px outset silver' />");
 
          hp=guile.hp;
-          attack=guile.attack;
-       document.getElementById("hp").innerHTML = "<h2> HP:"   + hp + "</h2>";
+          i=guile.attack;
+          attack=Math.floor(Math.random() * i);
+       document.getElementById("hp").innerHTML = "<h3> HP:"   + hp + "</h3>";
     document.getElementById("name").innerHTML = guile.name;
       });
 
@@ -301,9 +322,10 @@ document.getElementById("hp").innerHTML = "<h2> HP:"   + hp + "</h2>";
          
 
         hp2=bison.hp;
-           counter=bison.counter;
+           j=bison.counter;
+          counter=Math.floor(Math.random() * j);
        
-    document.getElementById("hp2").innerHTML = "<h2> HP:"   + hp2 + "</h2>";
+    document.getElementById("hp2").innerHTML = "<h3> HP:"   + hp2 + "</h3>";
     document.getElementById("name2").innerHTML = "Defender: "   + bison.name;
       });
 
@@ -314,9 +336,10 @@ document.getElementById("hp").innerHTML = "<h2> HP:"   + hp + "</h2>";
          
 
         hp2=balrog.hp;
-           counter=balrog.counter;
+           j=balrog.counter;
+          counter=Math.floor(Math.random() * j);
        
-    document.getElementById("hp2").innerHTML = "<h2> HP:"   + hp2 + "</h2>";
+    document.getElementById("hp2").innerHTML = "<h3> HP:"   + hp2 + "</h3>";
     document.getElementById("name2").innerHTML = "Defender: "   + balrog.name;
       });
 
@@ -325,9 +348,10 @@ document.getElementById("hp").innerHTML = "<h2> HP:"   + hp + "</h2>";
          $("#bad_guys").hide();
           $('#arena').append("<img id='photo7' src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRsORdwiXC0na6amFgnBd81L1R-rPTYlkgOxLJPC155QAcI_nmMuQ' style='width:304px;height:228px;border:20px outset red' />");
           hp2=akuma.hp;
-           counter=akuma.counter;
+           j=akuma.counter;
+          counter=Math.floor(Math.random() * j);
           
-       document.getElementById("hp2").innerHTML = "<h2> HP:"   + hp2 + "</h2>";
+       document.getElementById("hp2").innerHTML = "<h3> HP:"   + hp2 + "</h3>";
     document.getElementById("name2").innerHTML = "Defender: "   + akuma.name;
       });
 
@@ -338,7 +362,9 @@ document.getElementById("hp").innerHTML = "<h2> HP:"   + hp + "</h2>";
         
 
         hp2=sagat.hp;
-           counter=sagat.counter;
+           j=sagat.counter;
+          counter=Math.floor(Math.random() * j);
+          document.getElementById("hp2").innerHTML = "<h3> HP:"   + hp2 + "</h3>";
        document.getElementById("name2").innerHTML = "Defender: "   + sagat.name;
     
       });
